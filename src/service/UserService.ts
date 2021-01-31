@@ -15,4 +15,13 @@ export class UserService<ID> {
         await this.userRepository.save(user);
         return user;
     }
+
+    public async edit(id: ID, dto: UserDto): Promise<UserInterface<ID>>
+    {
+        const user = await this.userRepository.getById(id);
+        user.login = dto.login;
+        user.password = dto.password;
+        await this.userRepository.update(user);
+        return user;
+    }
 }
