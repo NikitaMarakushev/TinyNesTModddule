@@ -2,6 +2,7 @@ import { UserRepositoryInterface } from '../repository/UserRepositoryInterface';
 import { UserService } from "./UserService";
 import { UserDto } from 'src/DTO/UserDto';
 import { UserInterface } from 'src/entity/UserInterface';
+import { FindUserOptionsInterface } from 'src/options/FindUserOptionsInterface';
 
 describe("User Service", () => {
 
@@ -35,6 +36,7 @@ describe("User Service", () => {
                 login: "abc",
                 password: "1234"
             })) as (id: string) => Promise<UserInterface<string>>;
+            
             const dto: UserDto = { password: 'some', login: 'question' };
             const user: UserInterface<string> = await userService.edit("test", dto);
 
@@ -44,6 +46,30 @@ describe("User Service", () => {
             expect(user.id).toBe("test");
             expect(user.password).toBe(dto.password);
             expect(user.login).toBe(dto.login);
+        });
+    });
+
+    describe("findBy", () => {
+        it("should", async () => {
+            //Hard code for testing
+            const datausers = [
+                {
+                    id: 'test',
+                    login: 'abc',
+                    password: '12423'
+                },
+                {
+                    id: 'test2',
+                    login: 'abcd',
+                    password: '124235'
+                }
+            ];
+            userRepositoryMock.findBy = jest.fn().mockImplementation( () => (datausers)) as (oprions: FindUserOptionsInterface) => Promise<UserInterface<string>>;
+            
+            const users: UserInterface<string[]> = await userService.findBy({});
+
+            expect(userRepositoryMock.findBy).toBeCalledTimes(1);
+            expect(users).toEqual(datausers);
         });
     });
 });

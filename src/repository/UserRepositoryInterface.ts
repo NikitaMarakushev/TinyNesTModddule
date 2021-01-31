@@ -1,3 +1,4 @@
+import { FindUserOptionsInterface } from "src/options/FindUserOptionsInterface";
 import { UserInterface } from "../entity/UserInterface";
 
 export interface UserRepositoryInterface<ID> {
@@ -5,4 +6,5 @@ export interface UserRepositoryInterface<ID> {
     update(user: UserInterface<ID>): Promise<void>;
     getById(id: ID): Promise<UserInterface<ID>>;
     remove(user: UserInterface<ID>): Promise<void>;
+    findBy(oprions: FindUserOptionsInterface): Promise<UserInterface<ID>[]>;
 }

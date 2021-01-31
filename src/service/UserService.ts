@@ -1,3 +1,4 @@
+import { FindUserDto } from "src/DTO/FindUserDto";
 import { UserDto } from "../DTO/UserDto";
 import { UserInterface } from "../entity/UserInterface";
 import { UserRepositoryInterface } from "../repository/UserRepositoryInterface";
@@ -23,5 +24,10 @@ export class UserService<ID> {
         user.password = dto.password;
         await this.userRepository.update(user);
         return user;
+    }
+
+    public async findBy(dto: FindUserDto): Promise<UserInterface<ID>[]>
+    {
+        return this.userRepository.findBy(dto);
     }
 }
