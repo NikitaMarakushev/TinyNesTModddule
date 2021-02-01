@@ -104,4 +104,22 @@ describe("User Service", () => {
             expect(user).toEqual(datauser);
         });
     });
+
+    describe("remove", () => {
+        it("should remove finded users", async () => {
+            const datauser =  {
+                id: 'test',
+                login: 'abc',
+                password: '12423'
+            } as UserInterface<string>;
+            userRepositoryMock.getById = jest.fn().mockImplementation( () => (datauser)) as never;
+            userRepositoryMock.remove = jest.fn().mockImplementation( (user: UserInterface<string>) => {
+                expect(user).toEqual(datauser);
+            }) as never;
+    
+
+            expect(userRepositoryMock.getById).toBeCalledTimes(1);
+            expect(userRepositoryMock.remove).toBeCalledTimes(1);
+        });
+    });
 });

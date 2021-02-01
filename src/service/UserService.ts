@@ -43,4 +43,10 @@ export class UserService<ID> {
     {
         return this.userRepository.findBy(dto);
     }
+
+    public async remove(id: ID): Promise<void>
+    {   
+        const user = await this.userRepository.getById(id);
+        await this.userRepository.remove(user);
+    }
 }
