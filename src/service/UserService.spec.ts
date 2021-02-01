@@ -3,6 +3,7 @@ import { UserService } from "./UserService";
 import { UserDto } from 'src/DTO/UserDto';
 import { UserInterface } from 'src/entity/UserInterface';
 import { FindUserOptionsInterface } from 'src/options/FindUserOptionsInterface';
+import { UserLoginAlreadyUsedException } from 'src/exception/UserLoginAlreadyUsedException';
 
 describe("User Service", () => {
 
@@ -21,11 +22,27 @@ describe("User Service", () => {
     describe("create", () => {
         it("That should return user with correct enty data(login, password)", async () => {
             const dto: UserDto = {password: '1234', login: 'test.com'};
-            const user: UserInterface<string> = await userService.create(dto);
+            userRepositoryMock.findByLogin = jest.fn().mockImplementation( () => false );
 
+            const user: UserInterface<string> = await userService.create(dto);
+            
             expect(userRepositoryMock.save).toBeCalledTimes(1);
+            expect(userRepositoryMock.findByLogin).toBeCalledTimes(1);
             expect(user.login).toBe(dto.login);
             expect(user.password).toBe(dto.password);
+        });
+        it("should throw user login already used exception", async () => {
+            const dto: UserDto = {password: '1234', login: 'test.com'};
+            userRepositoryMock.findByLogin = jest.fn().mockImplementation( () => true);
+
+            try {
+                const user: UserInterface<string> = await userService.create(dto);
+            } catch (e) {
+                expect(userRepositoryMock.save).toBeCalledTimes(1);
+                expect(userRepositoryMock.findByLogin).toBeCalledTimes(1);
+                expect(e).toBeInstanceOf(UserLoginAlreadyUsedException);
+            }
+
         });
     });
 

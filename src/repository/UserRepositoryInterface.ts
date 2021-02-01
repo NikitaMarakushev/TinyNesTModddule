@@ -7,4 +7,5 @@ export interface UserRepositoryInterface<ID> {
     getById<T = UserInterface<ID>>(id: ID): Promise<T>;
     remove(user: UserInterface<ID>): Promise<void>;
     findBy(oprions: FindUserOptionsInterface): Promise<UserInterface<ID>[]>;
+    findByLogin<T = UserInterface<ID>>(login: string): Promise<T|undefined>;
 }

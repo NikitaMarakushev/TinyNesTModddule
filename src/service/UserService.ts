@@ -1,4 +1,5 @@
 import { FindUserDto } from "src/DTO/FindUserDto";
+import { UserLoginAlreadyUsedException } from "src/exception/UserLoginAlreadyUsedException";
 import { UserDto } from "../DTO/UserDto";
 import { UserInterface } from "../entity/UserInterface";
 import { UserRepositoryInterface } from "../repository/UserRepositoryInterface";
@@ -15,6 +16,12 @@ export class UserService<ID> {
     }
 
     public async create(dto: UserDto): Promise<UserInterface<ID>> {
+        const found = await this.userRepository.findByLogin(dto.login);
+        
+        if (found) {
+            throw new UserLoginAlreadyUsedException();
+        }
+        
         const user: UserInterface<ID> = {
             login: dto.login,
             password: dto.password
