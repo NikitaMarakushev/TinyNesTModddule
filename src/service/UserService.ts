@@ -4,9 +4,15 @@ import { UserInterface } from "../entity/UserInterface";
 import { UserRepositoryInterface } from "../repository/UserRepositoryInterface";
 
 export class UserService<ID> {
+
     constructor(
         private readonly userRepository: UserRepositoryInterface<ID>
     ){}
+
+    public async getById<T = UserInterface<ID>>(id: ID): Promise<T>
+    {
+        return this.userRepository.getById<T>(id);
+    }
 
     public async create(dto: UserDto): Promise<UserInterface<ID>> {
         const user: UserInterface<ID> = {

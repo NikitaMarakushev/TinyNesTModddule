@@ -35,7 +35,7 @@ describe("User Service", () => {
                 id: "test",
                 login: "abc",
                 password: "1234"
-            })) as (id: string) => Promise<UserInterface<string>>;
+            })) as never;
             
             const dto: UserDto = { password: 'some', login: 'question' };
             const user: UserInterface<string> = await userService.edit("test", dto);
@@ -50,7 +50,7 @@ describe("User Service", () => {
     });
 
     describe("findBy", () => {
-        it("should", async () => {
+        it("should retrurn users", async () => {
             //Hard code for testing
             const datausers = [
                 {
@@ -70,6 +70,21 @@ describe("User Service", () => {
 
             expect(userRepositoryMock.findBy).toBeCalledTimes(1);
             expect(users).toEqual(datausers);
+        });
+    });
+
+    describe("getById", () => {
+        it("should retrurn user by id", async () => {
+            const datauser =  {
+                id: 'test',
+                login: 'abc',
+                password: '12423'
+            } as UserInterface<string>;
+            userRepositoryMock.getById = jest.fn().mockImplementation( () => (datauser)) as never;
+            const user: UserInterface<string> = await userService.getById('1');
+
+            expect(userRepositoryMock.getById).toBeCalledTimes(1);
+            expect(user).toEqual(datauser);
         });
     });
 });
