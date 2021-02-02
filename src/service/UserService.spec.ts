@@ -3,7 +3,7 @@ import { UserService } from "./UserService";
 import { UserDto } from 'src/DTO/UserDto';
 import { UserInterface } from 'src/entity/UserInterface';
 import { FindUserOptionsInterface } from 'src/options/FindUserOptionsInterface';
-import { UserLoginAlreadyUsedException } from 'src/exception/UserLoginAlreadyUsedException';
+import { UserLoginAlreadyUsedException  } from '../exception/UserLoginAlreadyUsedException';
 
 describe("User Service", () => {
 
@@ -81,7 +81,7 @@ describe("User Service", () => {
                     password: '124235'
                 }
             ];
-            userRepositoryMock.findBy = jest.fn().mockImplementation( () => (datausers)) as (oprions: FindUserOptionsInterface) => Promise<UserInterface<string>>;
+            userRepositoryMock.findBy = jest.fn().mockImplementation( () => (datausers)) as (options: FindUserOptionsInterface) => Promise<UserInterface<string>>;
             
             const users: UserInterface<string[]> = await userService.findBy({});
 
