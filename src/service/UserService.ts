@@ -3,8 +3,9 @@ import { UserLoginAlreadyUsedException } from "src/exception/UserLoginAlreadyUse
 import { UserDto } from "../DTO/UserDto";
 import { UserInterface } from "../entity/UserInterface";
 import { UserRepositoryInterface } from "../repository/UserRepositoryInterface";
+import { UserSerivceInterface } from "./UserServiceInterface";
 
-export class UserService<ID> {
+export class UserService<ID> implements UserSerivceInterface<ID> {
 
     constructor(
         private readonly userRepository: UserRepositoryInterface<ID>
