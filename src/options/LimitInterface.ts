@@ -1,3 +1,3 @@
 export interface LimitInterface {
-    limit?: number; 
+  limit?: number;
 }

@@ -1,3 +1,3 @@
-export interface OrderInterface<T> {
-    order?: Record<T,"ASC" | "DESC">
+export interface OrderInterface {
+  order?: Record<string, 'ASC' | 'DESC'>;
 }
