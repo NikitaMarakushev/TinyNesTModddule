@@ -5,6 +5,7 @@
   "author": "FrNicky",
   "private": false,
   "license": "UNLICENSED",
+  "main": "dist/index.js",
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "tsc --project tsconfig.build.json",
